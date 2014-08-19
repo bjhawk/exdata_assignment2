@@ -39,8 +39,8 @@ qplot(year, Emissions, data=p, geom='bar', stat='identity') +
     theme_bw()
 
 
-# use 'Coal' %in% scc$SCC.Level.Three - Q4
-coal.codes <- scc['Coal' %in% scc$SCC.Level.Three,'SCC']
+# total US from coal combustion- Q4
+
 yearly.totals.coal <- sapply(split(pm25[pm25$SCC %in% scc.codes,], pm25$year), function(z){sum(z$Emissions)})
 labels.x <- barplot(yearly.totals.coal, axes=F, main="Total Emissions From Coal-related Sources (tons PM2.5)")
 text(labels.x, yearly.totals.coal-(min(yearly.totals.coal)*.25), labels=round(yearly.totals.coal, 0))
@@ -67,8 +67,8 @@ mv.codes <- append(grep('^22010*', levels(scc$SCC), ignore.case=T, value=T),
                    grep('^22300*', levels(scc$SCC), ignore.case=T, value=T))
 pm25.b.cars <- pm25[pm25$fips=='24510' & pm25$SCC %in% mv.codes, ]
 pm25.la.cars <- pm25[pm25$fips=='06037' & pm25$SCC %in% mv.codes, ]
-yearly.totals.cars.b <- sapply(split(pm25.b.cars, pm25.b.cars$year), function(z){sum(z$Emissions)})
-yearly.totals.cars.la <- sapply(split(pm25.la.cars, pm25.la.cars$year), function(z){sum(z$Emissions)})
+yearly.totals.cars.b <- sapply(split(pm25.b.cars, pm25.b.cars$year), function(year){sum(year$Emissions)})
+yearly.totals.cars.la <- sapply(split(pm25.la.cars, pm25.la.cars$year), function(year){sum(year$Emissions)})
 
 par(mfcol=c(2,1))
 labels.x.b <- barplot(yearly.totals.cars.b, axes=F, main='yearly total cars baltimore')
